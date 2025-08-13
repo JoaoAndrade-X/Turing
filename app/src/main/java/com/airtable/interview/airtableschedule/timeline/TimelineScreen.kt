@@ -123,7 +123,6 @@ private fun TimelineView(
                 TimelineLane(
                     lane = lane,
                     minDate = minDate,
-                    totalDays = totalDays,
                     dayWidthPx = dayWidthPx,
                     selectedEventId = selectedEventId,
                     onEventSelected = onEventSelected,
@@ -138,13 +137,11 @@ private fun TimelineView(
 fun TimelineLane(
     lane: List<Event>,
     minDate: Date,
-    totalDays: Int,
     dayWidthPx: Float,
     selectedEventId: Int?,
     onEventSelected: (Int) -> Unit,
     onEventUpdated: (Event) -> Unit
 ) {
-    val density = LocalDensity.current
     val dayMs = 24 * 60 * 60 * 1000L
     val minTime = minDate.time
 
