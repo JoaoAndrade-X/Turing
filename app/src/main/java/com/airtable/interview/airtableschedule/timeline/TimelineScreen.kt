@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -82,6 +83,20 @@ private fun TimelineView(
     var dayWidthPx by remember { mutableStateOf(100f) }
 
     Column(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(onClick = { dayWidthPx *= 1.2f }) {
+                Text("Zoom In")
+            }
+            Button(onClick = { dayWidthPx *= 0.8f }) {
+                Text("Zoom Out")
+            }
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -170,12 +185,11 @@ fun TimelineLane(
                                     position = Offset(position.x + dragAmount.x, 0f)
                                 },
                                 onDragEnd = {
-                                    val dayMs = 24 * 60 * 60 * 1000L
                                     val daysFromStart = (position.x / dayWidthPx).roundToInt()
                                     val durationInDays = (width / dayWidthPx).roundToInt()
 
                                     val newStart = Date(minDate.time + daysFromStart * dayMs)
-                                    val newEnd = Date(newStart.time + (durationInDays + 1) * dayMs)
+                                    val newEnd = Date(newStart.time + (durationInDays - 1) * dayMs)
 
                                     val finalEvent = event.copy(
                                         startDate = newStart,
